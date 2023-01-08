@@ -1,0 +1,49 @@
+<div class="containter mx-auto">
+  <div class="flex flex-col bg-indigo-900 w-full h-screen" x-data="{
+    showSubscribe: false,
+    showSuccess: false,
+  }">
+    <nav class="flex pt-5 justify-between container mx-auto text-indigo-200">
+      {{-- <a class="text-2xl" href="/"><x-application-logo class="w-16 h16 fill-current" /></a> --}}
+
+      <div class="flex justify-end">
+        @auth
+          <a href="{{ route("dashboard") }}">Dashboard</a>
+        @else
+          <a href="{{ route("login") }}">Login</a>
+        @endauth
+      </div>
+    </nav>
+
+    <div class="flex container mx-auto items-center h-full">
+      <div class="flex flex-col w-1/3 items-start">
+        <h1 class="text-white font-bold text-5xl mb-4 leading-tight">Simple generic landing page to subscribe!!</h1>
+        <p class="text-indigo-200 text-xl mb-10">We are just checking the <span class="font-bold underline">TALL</span> stack. Would you mind subscribing?</p>
+        <x-button class="px py-3 bg-red-500 font-bold text-center hover:bg-red-600 active:bg-red-500"
+        @click="showSubscribe = true">Subscribe now!!</x-button>
+      </div>
+    </div>
+
+    <x-modal class="bg-pink-500" trigger="showSubscribe">
+      <p class="text-white text-5xl font-extrabold text-center mt-5">Let's Do It!!</p>
+      <form class="flex flex-col items-center p-24" wire:submit.prevent="subscribe">
+        <x-input class="px-5 py-3 w-80 border border-blue-400" type="email" name="email" placeholder="Email address" wire:model="email" wire:keydown="resetvalidationErrors"></x-input>
+
+        <span class="text-gray-100 text-xs">
+          @error('email') {{ $message }} {{ $this->reset("email") }} @else {{ $msg }} @enderror
+
+        </span>
+        <span></span>
+        <x-button class="px-5 py-3 mt-5 w-80 justify-center bg-blue-500 hover:bg-blue-600 active:bg-blue-500">Get In</x-button>
+      </form>
+    </x-modal>
+
+    {{-- success message module --}}
+    <x-modal class="bg-green-400" trigger="showSuccess">
+      <p class="text-white text-9xl font-extrabold text-center">&check;</p>
+      <p class="text-white text-5xl font-bold text-center mt-5">Great!</p>
+      <p class="text-white text-2xl text-center mt-2">Thanks for subscribing.</p>
+    </x-modal>
+  </div>
+
+</div>
